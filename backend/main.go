@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -14,10 +15,7 @@ func main() {
 	r := gin.Default()
 
 	// CORS
-	//r.Use(cors.Default())
-
-	// 静的ファイル
-	r.Static("/assets", "./assets")
+	r.Use(cors.Default())
 
 	// API
 	r.GET("/users", func(c *gin.Context) {
@@ -29,8 +27,5 @@ func main() {
 		c.JSON(http.StatusOK, users)
 	})
 
-	r.NoRoute(func(c *gin.Context) {
-		c.File("./static/index.html")
-	})
 	r.Run(":8080")
 }

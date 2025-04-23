@@ -16,6 +16,8 @@ func main() {
 
 	// CORS
 	r.Use(cors.Default())
+	r.Use(JWTMiddleware())
+	r.Use(gin.Logger())
 
 	// API
 	r.GET("/users", func(c *gin.Context) {

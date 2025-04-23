@@ -8,14 +8,14 @@ RUN go mod download
 
 COPY . .
 
-RUN go build -o main .
+RUN CGO_ENABLED=0 go build -o main .
 
 FROM gcr.io/distroless/static-debian12
 
-WORKDIR /app
+WORKDIR /
 
 COPY --from=builder /app/main .
 
 EXPOSE 8080
 
-ENTRYPOINT ["/app/main"]
+ENTRYPOINT ["/main"]

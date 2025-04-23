@@ -6,9 +6,28 @@ services:
       - "80:80"
     depends_on:
       - backend
+      - keycloak
 
   backend:
     build:
       context: ./backend
     ports:
       - "8080:8080"
+    depends_on:
+      - keycloak
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2
+    command:
+      - start-dev
+      - --db=dev-file
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+    ports:
+      - "8081:8080"
+
+volumes:
+  keycloak_data:
